@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deen & Discipline</title>
+<style>
+:root{
+  --bg:#f4f5f3;--card:#fff;--text:#202923;--muted:#7b847d;
+  --accent:#496b56;--soft:#e7eee8;--border:#e5e9e4;
+}
+.dark{
+  --bg:#151a17;--card:#202722;--text:#e7eee8;--muted:#9ba69e;
+  --accent:#91b59b;--soft:#2d3a31;--border:#303a33;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,"Noto Sans Bengali",sans-serif;
+  transition:.2s;
+}
+header{
+  padding:25px 20px 18px;max-width:700px;margin:auto;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.brand{font-size:19px;font-weight:800;letter-spacing:1px}
+.brand span{color:var(--accent)}
+.sub{font-size:12px;color:var(--muted);margin-top:4px}
+button{font:inherit;cursor:pointer}
+.theme{
+  border:1px solid var(--border);background:var(--card);color:var(--text);
+  padding:10px;border-radius:12px
+}
+main{max-width:700px;margin:auto;padding:0 16px 100px}
+.welcome{
+  background:var(--accent);color:#fff;border-radius:20px;padding:22px;
+  margin-bottom:17px;
+}
+.welcome h2{font-size:21px;margin:0 0 8px}
+.welcome p{font-size:13px;margin:0;opacity:.85}
+.date{font-size:12px;opacity:.8;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{
+  background:var(--card);border:1px solid var(--border);
+  padding:17px;border-radius:17px;margin-bottom:12px;
+}
+.stat{font-size:26px;font-weight:750;margin-top:7px}
+.small{font-size:12px;color:var(--muted)}
+.section-title{font-size:17px;font-weight:750;margin:22px 0 12px}
+.nav{
+ display:flex;gap:8px;overflow:auto;padding:5px 0 12px;
+ scrollbar-width:none;
+}
+.nav button{
+ flex-shrink:0;border:1px solid var(--border);background:var(--card);
+ color:var(--text);padding:10px 14px;border-radius:12px;font-size:13px;
+}
+.nav button.active{background:var(--accent);color:white;border-color:var(--accent)}
+input,textarea,select{
+ width:100%;padding:12px;background:var(--bg);color:var(--text);
+ border:1px solid var(--border);border-radius:12px;margin:7px 0;
+ font:inherit;outline:none;
+}
+textarea{min-height:120px;resize:vertical}
+.primary{
+ width:100%;border:0;background:var(--accent);color:white;
+ padding:13px;border-radius:12px;margin-top:7px;font-weight:650;
+}
+.item{
+ display:flex;align-items:center;gap:10px;
+ padding:12px 0;border-bottom:1px solid var(--border);
+}
+.item:last-child{border:0}
+.item input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+.item .txt{flex:1}
+.done{text-decoration:line-through;color:var(--muted)}
+.delete{
+ border:0;background:var(--soft);color:var(--text);
+ padding:7px 10px;border-radius:8px
+}
+.empty{text-align:center;color:var(--muted);padding:20px;font-size:13px}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:30px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+ <div>
+  <div class="brand">DEEN <span>&</span> DISCIPLINE</div>
+  <div class="sub">Build your days with intention.</div>
+ </div>
+ <button class="theme" onclick="toggleTheme()">◐</button>
+</header>
+
+<main>
+ <div class="welcome">
+  <div class="date" id="date"></div>
+  <h2>بِسْمِ اللَّهِ</h2>
+  <p>Small steps. Consistency. Sincerity.</p>
+ </div>
+
+ <div class="grid">
+  <div class="card">
+   <div class="small">আজকের অভ্যাস</div>
+   <div class="stat" id="habitStat">0/0</div>
+  </div>
+  <div class="card">
+   <div class="small">আজকের কাজ</div>
+   <div class="stat" id="taskStat">0/0</div>
+  </div>
+ </div>
+
+ <div class="nav">
+  <button class="active" onclick="showTab('home',this)">Home</button>
+  <button onclick="showTab('diary',this)">Diary</button>
+  <button onclick="showTab('habits',this)">Habits</button>
+  <button onclick="showTab('study',this)">Study</button>
+  <button onclick="showTab('deen',this)">Deen</button>
+  <button onclick="showTab('tasks',this)">Tasks</button>
+  <button onclick="showTab('progress',this)">Progress</button>
+ </div>
+
+ <!-- HOME -->
+ <section id="home">
+  <div class="section-title">Daily Focus</div>
+  <div class="card">
+   <div class="small">আজকের প্রধান লক্ষ্য</div>
+   <input id="focusInput" placeholder="আজ আমি যে কাজটি করব..." />
+   <button class="primary" onclick="saveFocus()">Save Focus</button>
+  </div>
+  <div class="section-title">Today's Overview</div>
+  <div class="card">
+   <p>📔 ডায়েরিতে নিজের দিনের কথা লিখে রাখো।</p>
+   <p>🎯 প্রতিদিনের অভ্যাস ঠিক রাখো।</p>
+   <p>📚 পড়াশোনায় ধারাবাহিকতা বজায় রাখো।</p>
+   <p>🕌 দ্বীনি আমলের প্রতি যত্নশীল হও।</p>
+  </div>
+ </section>
+
+ <!-- DIARY -->
+ <section id="diary" class="hidden">
+  <div class="section-title">My Daily Diary</div>
+  <div class="card">
+   <div class="small">আজকের অনুভূতি ও চিন্তা</div>
+   <textarea id="diaryInput" placeholder="আজকের দিনটি কেমন গেল? কী শিখলাম? কী ভুল হলো?"></textarea>
+   <button class="primary" onclick="saveDiary()">Save Diary</button>
+  </div>
+  <div class="section-title">Previous Entries</div>
+  <div id="diaryList"></div>
+ </section>
+
+ <!-- HABITS -->
+ <section id="habits" class="hidden">
+  <div class="section-title">Habit Tracker</div>
+  <div class="card">
+   <input id="habitInput" placeholder="নতুন অভ্যাস লিখো..." />
+   <button class="primary" onclick="addHabit()">Add Habit</button>
+  </div>
+  <div class="card">
+   <div class="small">আজকের অভ্যাসগুলো</div>
+   <div id="habitList"></div>
+  </div>
+ </section>
+
+ <!-- STUDY -->
+ <section id="study" class="hidden">
+  <div class="section-title">Study Hub</div>
+  <div class="card">
+   <input id="studyName" placeholder="বিষয় / বইয়ের নাম" />
+   <input id="studyTime" placeholder="সময় (যেমন ৩০ মিনিট)" />
+   <textarea id="studyNote" placeholder="আজ কী পড়ব?"></textarea>
+   <button class="primary" onclick="addStudy()">Add Study Plan</button>
+  </div>
+  <div id="studyList"></div>
+ </section>
+
+ <!-- DEEN -->
+ <section id="deen" class="hidden">
+  <div class="section-title">Deen Tracker</div>
+  <div class="card">
+   <div class="small">আজকের দ্বীনি লক্ষ্য</div>
+   <div id="deenList"></div>
+  </div>
+ </section>
+
+ <!-- TASKS -->
+ <section id="tasks" class="hidden">
+  <div class="section-title">To-do List</div>
+  <div class="card">
+   <input id="taskInput" placeholder="কাজটি লিখো..." />
+   <button class="primary" onclick="addTask()">Add Task</button>
+  </div>
+  <div class="card" id="taskList"></div>
+ </section>
+
+ <!-- PROGRESS -->
+ <section id="progress" class="hidden">
+  <div class="section-title">My Progress</div>
+  <div class="grid">
+   <div class="card">
+    <div class="small">মোট ডায়েরি</div>
+    <div class="stat" id="diaryCount">0</div>
+   </div>
+   <div class="card">
+    <div class="small">মোট পড়াশোনা</div>
+    <div class="stat" id="studyCount">0</div>
+   </div>
+  </div>
+  <div class="card">
+   <div class="small">আজ অভ্যাস সম্পন্ন</div>
+   <div class="stat" id="habitPercent">0%</div>
+  </div>
+  <div class="card">
+   <div class="small">আজ কাজ সম্পন্ন</div>
+   <div class="stat" id="taskPercent">0%</div>
+  </div>
+  <button class="primary" onclick="exportData()">Export Backup</button>
+ </section>
+
+ <footer>DEEN & DISCIPLINE · One day at a time.</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const key='deen_discipline_v1';
+const today=()=>new Date().toISOString().slice(0,10);
+
+let data=JSON.parse(localStorage.getItem(key)||'{}');
+data.habits ||= [];
+data.tasks ||= [];
+data.diaries ||= {};
+data.studies ||= [];
+data.deen ||= {};
+
+function save(){localStorage.setItem(key,JSON.stringify(data));render()}
+function toggleTheme(){
+ document.body.classList.toggle('dark');
+ localStorage.setItem('dd_theme',document.body.classList.contains('dark')?'dark':'light');
+}
+if(localStorage.getItem('dd_theme')==='dark')document.body.classList.add('dark');
+
+function showTab(id,btn){
+ document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+ $(id).classList.remove('hidden');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ render();
+}
+
+function saveFocus(){
+ data.focus=$( 'focusInput').value;
+ save();
+ alert('আজকের লক্ষ্য সংরক্ষিত হয়েছে');
+}
+
+function saveDiary(){
+ const text=$('diaryInput').value.trim();
+ if(!text)return alert('আগে কিছু লিখো');
+ data.diaries[today()]=text;
+ $('diaryInput').value='';
+ save();
+}
+function addHabit(){
+ const name=$('habitInput').value.trim();
+ if(!name)return;
+ data.habits.push({id:Date.now(),name,checks:{}});
+ $('habitInput').value='';
+ save();
+}
+function addTask(){
+ const name=$('taskInput').value.trim();
+ if(!name)return;
+ data.tasks.push({id:Date.now(),name,checks:{}});
+ $('taskInput').value='';
+ save();
+}
+function addStudy(){
+ const name=$('studyName').value.trim();
+ if(!name)return;
+ data.studies.unshift({
+  id:Date.now(),name,time:$('studyTime').value,note:$('studyNote').value,
+  date:today()
+ });
+ $('studyName').value='';$('studyTime').value='';$('studyNote').value='';
+ save();
+}
+function remove(type,id){
+ data[type]=data[type].filter(x=>x.id!==id);save();
+}
+function toggle(type,id){
+ let list=type==='habits'?data.habits:data.tasks;
+ let item=list.find(x=>x.id===id);
+ if(!item)return;
+ item.checks ||= {};
+ item.checks[today()]=!item.checks[today()];
+ save();
+}
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
+function render(){
+ $('date').textContent=new Date().toLocaleDateString('bn-BD',{
+ weekday:'long',year:'numeric',month:'long',day:'numeric'
+ });
+ $('focusInput').value=data.focus||'';
+ const hDone=data.habits.filter(h=>h.checks?.[today()]).length;
+ const tDone=data.tasks.filter(t=>t.checks?.[today()]).length;
+ $('habitStat').textContent=hDone+'/'+data.habits.length;
+ $('taskStat').textContent=tDone+'/'+data.tasks.length;
+ $('habitPercent').textContent=data.habits.length?Math.round(hDone/data.habits.length*100)+'%':'0%';
+ $('taskPercent').textContent=data.tasks.length?Math.round(tDone/data.tasks.length*100)+'%':'0%';
+ $('diaryCount').textContent=Object.keys(data.diaries).length;
+ $('studyCount').textContent=data.studies.length;
+ $('diaryList').innerHTML=Object.entries(data.diaries).sort((a,b)=>b[0].localeCompare(a[0]))
+ .map(([d,t])=>`<div class="card"><b>${escapeHTML(d)}</b><p>${escapeHTML(t).replace(/\n/g,'<br>')}</p></div>`).join('')
+ ||'<div class="empty">এখনো কোনো ডায়েরি নেই</div>';
+
+ $('habitList').innerHTML=data.habits.map(h=>`
+ <div class="item">
+ <input type="checkbox" ${h.checks?.[today()]?'checked':''} onchange="toggle('habits',${h.id})">
+ <div class="txt ${h.checks?.[today()]?'done':''}">${escapeHTML(h.name)}</div>
+ <button class="delete" onclick="remove('habits',${h.id})">×</button>
+ </div>`).join('')||'<div class="empty">অভ্যাস যোগ করো</div>';
+
+ $('taskList').innerHTML=data.tasks.map(t=>`
+ <div class="item">
+ <input type="checkbox" ${t.checks?.[today()]?'checked':''} onchange="toggle('tasks',${t.id})">
+ <div class="txt ${t.checks?.[today()]?'done':''}">${escapeHTML(t.name)}</div>
+ <button class="delete" onclick="remove('tasks',${t.id})">×</button>
+ </div>`).join('')||'<div class="empty">কোনো কাজ নেই</div>';
+
+ $('studyList').innerHTML=data.studies.map(s=>`
+ <div class="card">
+ <b>${escapeHTML(s.name)}</b>
+ <div class="small">${escapeHTML(s.date)} · ${escapeHTML(s.time||'')}</div>
+ <p>${escapeHTML(s.note||'')}</p>
+ <button class="delete" onclick="remove('studies',${s.id})">Delete</button>
+ </div>`).join('')||'<div class="empty">পড়ার পরিকল্পনা যোগ করো</div>';
+
+ const defaultDeen=['কুরআন তিলাওয়াত','হিফয / مراجعة','সকালের আযকার','সন্ধ্যার আযকার','ইলম অর্জন','রাতের আত্মসমালোচনা'];
+ data.deen[today()] ||= {};
+ $('deenList').innerHTML=defaultDeen.map((n,i)=>`
+ <div class="item">
+ <input type="checkbox" ${data.deen[today()][i]?'checked':''} onchange="toggleDeen(${i})">
+ <div class="txt ${data.deen[today()][i]?'done':''}">${n}</div>
+ </div>`).join('');
+}
+function toggleDeen(i){
+ data.deen[today()][i]=!data.deen[today()][i];save();
+}
+function exportData(){
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);a.download='deen-discipline-backup.json';a.click();
+ URL.revokeObjectURL(a.href);
+}
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "Deen & Discipline",
+  "short_name": "Deen",
+  "description": "My personal deen and discipline hub",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f5f3",
+  "theme_color": "#496b56"
+}

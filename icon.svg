@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="110" fill="#263c2d"/>
+  <text x="256" y="285"
+        font-size="155"
+        text-anchor="middle"
+        fill="#f4f5f3"
+        font-family="serif"
+        font-weight="bold">D&amp;D</text>
+  <path d="M145 340 H367"
+        stroke="#a9c4ad"
+        stroke-width="8"
+        stroke-linecap="round"/>
+  <text x="256" y="390"
+        font-size="30"
+        text-anchor="middle"
+        fill="#a9c4ad"
+        font-family="sans-serif"
+        letter-spacing="5">DISCIPLINE</text>
+</svg>
